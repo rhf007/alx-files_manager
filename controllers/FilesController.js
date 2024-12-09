@@ -10,6 +10,7 @@ import redisClient from '../utils/redis';
 class FilesController {
   static async postUpload(req, res) {
     try {
+      // Ensure req.user is defined and contains userId
       if (!req.user || !req.user.userId) {
         return res.status(401).json({ error: 'Unauthorized' });
       }
@@ -31,6 +32,7 @@ class FilesController {
         return res.status(400).json({ error: 'Missing data' });
       }
 
+      // Check if parent exists
       if (parentId !== 0) {
         const parentFile = await dbClient.db.collection('files').findOne({ _id: ObjectId(parentId) });
         if (!parentFile || parentFile.type !== 'folder') {
@@ -44,6 +46,7 @@ class FilesController {
         localPath = path.join(folderPath, uuidv4());
         fs.writeFileSync(localPath, Buffer.from(data, 'base64'));
 
+        // Add a job to the Bull queue for generating thumbnails
         if (type === 'image') {
           await fileQueue.add({ userId, fileId: localPath });
         }
@@ -102,6 +105,7 @@ class FilesController {
     try {
       const { parentId = '0', page = '0' } = req.query;
 
+      // Ensure req.user is defined and contains userId
       if (!req.user || !req.user.userId) {
         return res.status(401).json({ error: 'Unauthorized' });
       }
