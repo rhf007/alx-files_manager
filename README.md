@@ -1,141 +1,47 @@
-# 0x04. Files manager
+# Files Manager
 
-This repository contains a file manager application built with Node.js. The application allows users to upload, manage, and share files efficiently. Below is an overview of the project structure and functionalities.
+[![Coverage Status](https://coveralls.io/repos/github/B3zaleel/alx-files_manager/badge.svg?branch=main)](https://coveralls.io/github/B3zaleel/alx-files_manager?branch=main)
 
-## Table of Contents
-
-- [Project Overview](#project-overview)
-- [File Structure](#file-structure)
-- [Requirements](#requirements)
-- [Setup](#setup)
-- [Usage](#usage)
-- [Endpoints](#endpoints)
-- [Testing](#testing)
-
-## Project Overview
-
-The file manager application provides various functionalities for users to manage their files:
-
-- Upload files
-- View file details
-- Publish/unpublish files
-- Generate thumbnails for images
-- Send welcome emails to new users
-
-The application utilizes Express.js for handling HTTP requests, MongoDB for database storage, and Redis for caching. Background processing for tasks such as thumbnail generation and sending emails is implemented using Bull queues.
-
-## File Structure
-
-```
-project-root/
-│
-├── controllers/
-│   ├── AppController.js
-│   ├── AuthController.js
-|   ├── UsersController.js
-|   ├── FilesController.js     
-│   └── ...
-│
-├── routes/
-│   ├── index.js
-│   └── ...
-│
-├── tests/ 
-│   ├── dbClient.test.js
-│   ├── redisClient.test.js
-│   ├── status.test.js
-│   ├── stats.test.js
-│   ├── users.test.js
-│   └── ...
-│
-├── utils/
-│   ├── db.js
-│   ├── redis.js
-│   └── ...
-│
-├── package.json
-├── server.js
-├── worker.js
-├── .env
-└── README.md
-```
+A simple file management API built with Express, MongoDB, Redis, Bull, and Node.js.
 
 ## Requirements
 
-- Node.js (version 12.x.x)
-- MongoDB
-- Redis
+### Applications
 
-## Setup
++ Node.js
++ Yarn (the package manager/resource negotiator)
 
-1. Clone the repository:
+### APIs
 
-```bash
-git clone https://github.com/lebogangolifant/alx-files_manager.git
-```
++ A Google API should be created with at least an email sending scope and a valid URL (e.g.; `http://localhost:5000/`) should be one of the redirect URIs. The `credentials.json` file should be stored in the root directory of this project.
 
-2. Navigate to the project directory:
+### Environment Variables
 
-```bash
-cd alx-files_manager
-```
+The required environment variables should be stored in a file named `.env` and each line should have the format `Name=Value`. The table below lists the environment variables that will be used by this server:
 
-3. Install dependencies:
+| Name | Required | Description |
+|:-|:-|:-|
+| GOOGLE_MAIL_SENDER | Yes | The email address of the account responsible for sending emails to users. |
+| PORT | No (Default: `5000`)| The port the server should listen at. |
+| DB_HOST | No (Default: `localhost`)| The database host. |
+| DB_PORT | No (Default: `27017`)| The database port. |
+| DB_DATABASE | No (Default: `files_manager`)| The database name. |
+| FOLDER_PATH | No (Default: `/tmp/files_manager` (Linux, Mac OS X) & `%TEMP%/files_manager` (Windows)) | The local folder where files are saved. |
 
-```bash
-npm install
-```
+## Installation
 
-4. Set up environment variables:
-   - Create a `.env` file in the project root.
-   - Define the following variables in the `.env` file:
-     - `DB_HOST`: MongoDB database connection URL
-     - `DB_NAME`: MongoDB database name
-     - `REDIS_HOST`: Redis server host
-     - `REDIS_PORT`: Redis server port
-
-
-Replace `<MongoDB database connection URL>`, `<MongoDB database name>`, `<Redis server host>`, and `<Redis server port>` with your actual database and Redis server information.
-
- `.env` file example:
-
-```
-DB_HOST=mongodb://localhost:01234/mydatabase
-DB_NAME=mydatabase
-REDIS_HOST=localhost
-REDIS_PORT=5000
-```
-
-Make sure to keep the `.env` file secure and never commit it to version control, as it may contain sensitive information like database credentials.    
++ Clone this repository and switch to the cloned repository's directory.
++ Install the packages using `yarn install` or `npm install`.
 
 ## Usage
 
-1. Start the server:
+Start the Redis and MongoDB services on your system and run `yarn start-server` or `npm run start-server`.
 
-```bash
-npm start
-```
+## Tests
 
-2. Access the API endpoints using a tool like cURL or Postman.
++ Create a separate `.env` file for the tests named `.env.test` and store the value of the environment variables for the testing event in it.
++ Run `yarn test` or `npm run test` to execute the E2E tests.
 
-## Endpoints
+## Documentation
 
-- **POST /users**: Register a new user and send a welcome email.
-- **GET /connect**: Authenticate and obtain a token.
-- **GET /disconnect**: Log out and invalidate the token.
-- **GET /users/me**: Get user details.
-- **POST /files**: Upload a new file.
-- **GET /files/:id**: Get details of a specific file.
-- **GET /files**: Get a paginated list of files.
-- **PUT /files/:id/publish**: Publish a file.
-- **PUT /files/:id/unpublish**: Unpublish a file.
-- **GET /files/:id/data**: Get the content of a file.
-- **GET /files/:id/data?size={size}**: Get the resized content of an image file.
-
-## Testing 
-### `TODO:`
-To run tests for the application:
-
-```bash
-npm test
-```
++ TODO: Generate OpenAPI documentation with [**apidoc**](https://www.npmjs.com/package/apidoc).
