@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import mime from 'mime-types';
 import dbClient from '../utils/db';
-//import fileQueue from '../worker';
+import fileQueue from '../worker';
 import redisClient from '../utils/redis';
 
 class FilesController {
