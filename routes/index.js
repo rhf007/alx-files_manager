@@ -1,22 +1,11 @@
-import express from 'express';
-import AppController from '../controllers/AppController';
+#!/usr/bin/node
 
-function controllerRouting(app) {
-  const router = express.Router();
-  app.use('/', router);
+const express = require('express');
+const AppController = require('../controllers/AppController');
 
-  // App Controller
+const router = express.Router();
 
-  // should return if Redis is alive and if the DB is alive
-  router.get('/status', (req, res) => {
-    AppController.getStatus(req, res);
-  });
+router.get('/status', AppController.getStatus);
+router.get('/stats', AppController.getStats);
 
-  // should return the number of users and files in DB
-  router.get('/stats', (req, res) => {
-    AppController.getStats(req, res);
-  });
-
-}
-
-export default controllerRouting;
+module.exports = router;
